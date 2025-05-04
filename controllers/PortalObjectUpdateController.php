@@ -10,48 +10,62 @@ class PortalObjectUpdateController extends BasePortalTwigController {
 
         $sql =<<<EOL
 SELECT * FROM portal_characters WHERE id = :id
-EOL; // сформировали запрос
+EOL;
         
-        // выполнили
         $query = $this->pdo->prepare($sql);
         $query->bindValue(":id", $id);
         $query->execute();
 
         $data = $query->fetch();
 
-        $context['object'] = $data;
+        $context['objectUpdate'] = $data;
 
-        $this->get($context);
+        parent::get($context);
     }
 
     public function post(array $context) {
-        // получаем значения полей с формы
+        $id = $this->params['id'];
         $title = $_POST['title'];
         $description = $_POST['description'];
         $type = $_POST['type'];
         $info = $_POST['info'];
 
-        $tmp_name = $_FILES['image']['tmp_name'];
-        $name =  $_FILES['image']['name'];
-        move_uploaded_file($tmp_name, "../public/media/$name");
-        $image_url = "/media/$name"; // формируем ссылку без адреса сервера
+        $sqlSelect = "SELECT image FROM portal_characters WHERE id = :id";
+        $querySelect = $this->pdo->prepare($sqlSelect);
+        $querySelect->bindValue(":id", $id);
+        $querySelect->execute();
+
+        $image_url = $querySelect->fetchColumn();;
+        
+        if (!empty($_FILES['image']['tmp_name'])) {
+            $tmp_name = $_FILES['image']['tmp_name'];
+            $name = $_FILES['image']['name'];
+            move_uploaded_file($tmp_name, "../public/media/$name");
+            $image_url = "/media/$name";
+        }
 
         $sql = <<<EOL
-INSERT INTO portal_characters(title, description, type, info, image)
-VALUES(:title, :description, :type, :info, :image_url) -- передаем переменную в запрос
+UPDATE portal_characters 
+SET 
+    title = :title,
+    description = :description,
+    type = :type,
+    info = :info,
+    image = :image_url
+WHERE id = :id
 EOL;
 
         $query = $this->pdo->prepare($sql);
-        $query->bindValue("title", $title);
-        $query->bindValue("description", $description);
-        $query->bindValue("type", $type);
-        $query->bindValue("info", $info);
-        $query->bindValue("image_url", $image_url); // подвязываем значение ссылки к переменной  image_url
+        $query->bindValue(":title", $title);
+        $query->bindValue(":description", $description);
+        $query->bindValue(":type", $type);
+        $query->bindValue(":info", $info);
+        $query->bindValue(":image_url", $image_url);
+        $query->bindValue(":id", $id);
         $query->execute();
         
-        // а дальше как обычно
-        $context['message'] = 'Вы успешно создали объект';
-        $context['id'] = $this->pdo->lastInsertId();
+        $context['message'] = 'Данные успешно обновлены';
+        $context['id'] = $id;
 
         $this->get($context);
     }

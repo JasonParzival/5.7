@@ -9,13 +9,15 @@
                     <img src="{{ menu.image }}" alt="{{ menu.title }}" style="height: 100%; max-height: 200px; width: auto;">
                 </li>
             </ul>
-            <div class="position-absolute" style="left: 4 px; top: 4px">
+            <div class="position-absolute" style="right: 4px; top: 4px">
                 <form action="/portal-character/{{ menu.id }}/delete" method="POST">
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-times"></i>
                     </button>
                 </form>
-                <form action="/portal-character/{{ menu.id }}/edit" method="POST">
+            </div>
+            <div class="position-absolute" style="left: 4px; top: 4px">
+                <form action="/portal-character/{{ menu.id }}/edit" method="GET">
                     <button type="submit" class="btn btn-secondary">
                         <i class="fas fa-pencil-alt"></i>
                     </button>
