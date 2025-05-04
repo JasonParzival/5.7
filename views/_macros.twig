@@ -1,0 +1,15 @@
+{% macro nav(text, url, is_active=true) %}
+    <li class="nav-item">
+        <a class="nav-link {{ is_active ? 'active' }}" href="{{ url }}">
+            {{ text }}
+        </a>
+    </li>
+{% endmacro %}
+
+{% macro mainnav(text, url, is_active=true) %}
+    <li class="nav-item">
+        <a href="{{ url }}" class="nav-link {{ is_active ? 'active' }}" {{is_active ? 'aria-current="page"'}}>
+            {{ text }}
+        </a>
+    </li>
+{% endmacro %}

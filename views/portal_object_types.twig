@@ -1,0 +1,23 @@
+{% extends "__layout.twig" %}
+
+{% block content %}
+    <h1>Добавление типа объекта из Portal</h1>
+    <hr>
+
+    <form action="" enctype="multipart/form-data" method="POST" class="row g-3">
+        <div class="col-4">
+            <label class="form-label">Название</label>
+            <input type="text" class="form-control" name="name">
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Картинка</label>
+            <input class="form-control" type="file" name="image">
+        </div>
+
+        <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% import "_macros.twig" as macros %}
+
+<div class="col">
+    <ul class="list-group">
+        <li class="list-group-item position-relative">
+            
+            <ul class="list-group">
+                <li class="list-group-item" style="text-align: center;">
+                    <img src="{{ menu.image }}" alt="{{ menu.title }}" style="height: 100%; max-height: 200px; width: auto;">
+                </li>
+            </ul>
+            <div class="position-absolute" style="left: 4 px; top: 4px">
+                <form action="/portal-character/{{ menu.id }}/delete" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="row">
+                <a class="btn btn-primary" style=" width: 100%; text-align: center; margin-top: 10px;" href="/portal-character/{{ menu.id }}">
+                    {{ menu.title }}
+                </a>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto d-flex gap-2">
+                    <a class="btn btn-link" href="/portal-character/{{ menu.id }}?show=image">
+                        Картинка
+                    </a>
+                    <a class="btn btn-link" href="/portal-character/{{ menu.id }}?show=info">
+                        Описание
+                    </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
