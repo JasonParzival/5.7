@@ -1,15 +1,28 @@
 <?php
 require_once "BasePortalTwigController.php";
 
-class PortalObjectCreateController extends BasePortalTwigController {
-    public $template = "portal_object_create.twig";
+class PortalObjectUpdateController extends BasePortalTwigController {
+    public $template = "portal_object_update.twig";
 
-    /*public function get(array $context) // добавили параметр
+    public function get(array $context) // добавили параметр
     {
-        echo $_SERVER['REQUEST_METHOD'];
+        $id = $this->params['id']; // взяли id
+
+        $sql =<<<EOL
+SELECT * FROM portal_characters WHERE id = :id
+EOL; // сформировали запрос
         
-        parent::get($context); // пробросили параметр
-    }*/
+        // выполнили
+        $query = $this->pdo->prepare($sql);
+        $query->bindValue(":id", $id);
+        $query->execute();
+
+        $data = $query->fetch();
+
+        $context['object'] = $data;
+
+        $this->get($context);
+    }
 
     public function post(array $context) {
         // получаем значения полей с формы
